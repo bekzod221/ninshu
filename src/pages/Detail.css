@@ -475,5 +475,159 @@
   .container {
     padding: 0 1rem;
   }
+  
+  .section-heading {
+    font-size: 1.5rem;
+  }
+  
+  .detail-description {
+    font-size: 1rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .detail-banner {
+    padding: 1.5rem 0;
+  }
+  
+  .detail-banner-content {
+    gap: 1.5rem;
+  }
+  
+  .detail-poster {
+    max-width: 150px;
+  }
+  
+  .detail-title {
+    font-size: 1.5rem;
+    line-height: 1.2;
+  }
+  
+  .detail-title-japanese {
+    font-size: 1rem;
+  }
+  
+  .detail-rating {
+    font-size: 1.5rem;
+  }
+  
+  .rating-value {
+    font-size: 1.5rem;
+  }
+  
+  .rating-max {
+    font-size: 1rem;
+  }
+  
+  .detail-stats {
+    flex-wrap: wrap;
+    gap: 0.75rem;
+  }
+  
+  .stat-item {
+    flex: 1 1 calc(50% - 0.375rem);
+    min-width: 0;
+  }
+  
+  .stat-label {
+    font-size: 0.75rem;
+  }
+  
+  .stat-value {
+    font-size: 0.95rem;
+  }
+  
+  .genre-badge {
+    padding: 0.5rem 0.875rem;
+    font-size: 0.8rem;
+  }
+  
+  .detail-description {
+    font-size: 0.9rem;
+    line-height: 1.7;
+  }
+  
+  .section-heading {
+    font-size: 1.25rem;
+    margin-bottom: 1rem;
+  }
+  
+  .sidebar-heading {
+    font-size: 1.1rem;
+  }
+  
+  .info-label,
+  .info-value {
+    font-size: 0.85rem;
+  }
+  
+  .episodes-grid {
+    grid-template-columns: 1fr;
+    gap: 0.75rem;
+  }
+  
+  .episode-number {
+    font-size: 0.9rem;
+  }
+  
+  .episode-info {
+    font-size: 0.8rem;
+  }
+  
+  .dubbing-btn {
+    padding: 0.6rem 1rem;
+    font-size: 0.85rem;
+  }
+  
+  .container {
+    padding: 0 0.75rem;
+  }
+}
+
+@media (max-width: 375px) {
+  .detail-poster {
+    max-width: 120px;
+  }
+  
+  .detail-title {
+    font-size: 1.25rem;
+  }
+  
+  .detail-title-japanese {
+    font-size: 0.9rem;
+  }
+  
+  .detail-rating {
+    font-size: 1.25rem;
+  }
+  
+  .rating-value {
+    font-size: 1.25rem;
+  }
+  
+  .stat-label {
+    font-size: 0.7rem;
+  }
+  
+  .stat-value {
+    font-size: 0.85rem;
+  }
+  
+  .genre-badge {
+    padding: 0.4rem 0.75rem;
+    font-size: 0.75rem;
+  }
+  
+  .detail-description {
+    font-size: 0.85rem;
+  }
+  
+  .section-heading {
+    font-size: 1.1rem;
+  }
+  
+  .container {
+    padding: 0 0.5rem;
+  }
 }
 

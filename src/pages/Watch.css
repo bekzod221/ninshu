@@ -44,12 +44,14 @@
   border-radius: 12px;
   overflow: hidden;
   box-shadow: 0 8px 32px rgba(0, 0, 0, 0.5);
+  max-width: 100%;
 }
 
 .video-player {
   width: 100%;
   height: 100%;
   border: none;
+  display: block;
 }
 
 .player-placeholder {
@@ -251,8 +253,18 @@
 }
 
 @media (max-width: 768px) {
+  .watch-page {
+    padding-top: 1.5rem;
+    padding-bottom: 2rem;
+  }
+  
   .video-title {
     font-size: 1.5rem;
+  }
+  
+  .video-meta {
+    font-size: 0.85rem;
+    gap: 0.5rem;
   }
   
   .episode-navigation {
@@ -261,10 +273,129 @@
   
   .nav-btn {
     width: 100%;
+    padding: 0.75rem 1.25rem;
+    font-size: 0.9rem;
+  }
+  
+  .episodes-sidebar {
+    padding: 1.25rem;
+  }
+  
+  .episodes-sidebar-title {
+    font-size: 1.1rem;
+  }
+  
+  .episode-item {
+    padding: 0.75rem;
+    font-size: 0.85rem;
   }
   
   .container {
     padding: 0 1rem;
   }
 }
+
+@media (max-width: 480px) {
+  .watch-page {
+    padding-top: 1rem;
+    padding-bottom: 1.5rem;
+  }
+  
+  .watch-header {
+    margin-bottom: 1.5rem;
+  }
+  
+  .back-link {
+    font-size: 0.9rem;
+  }
+  
+  .video-player-container {
+    border-radius: 8px;
+  }
+  
+  .player-placeholder {
+    font-size: 0.95rem;
+  }
+  
+  .video-title {
+    font-size: 1.25rem;
+    line-height: 1.3;
+    word-wrap: break-word;
+  }
+  
+  .video-meta {
+    font-size: 0.8rem;
+    flex-wrap: wrap;
+  }
+  
+  .nav-btn {
+    padding: 0.7rem 1rem;
+    font-size: 0.85rem;
+  }
+  
+  .nav-btn svg {
+    width: 18px;
+    height: 18px;
+  }
+  
+  .episodes-sidebar {
+    padding: 1rem;
+  }
+  
+  .episodes-sidebar-title {
+    font-size: 1rem;
+    margin-bottom: 1rem;
+  }
+  
+  .dubbing-btn {
+    padding: 0.6rem 0.875rem;
+    font-size: 0.8rem;
+  }
+  
+  .episode-item {
+    padding: 0.7rem 0.875rem;
+    font-size: 0.8rem;
+  }
+  
+  .episode-item-number {
+    font-size: 0.8rem;
+  }
+  
+  .episode-item-duration {
+    font-size: 0.75rem;
+  }
+  
+  .container {
+    padding: 0 0.75rem;
+  }
+}
+
+@media (max-width: 375px) {
+  .video-title {
+    font-size: 1.1rem;
+  }
+  
+  .video-meta {
+    font-size: 0.75rem;
+  }
+  
+  .nav-btn {
+    padding: 0.6rem 0.875rem;
+    font-size: 0.8rem;
+  }
+  
+  .nav-btn svg {
+    width: 16px;
+    height: 16px;
+  }
+  
+  .episodes-sidebar {
+    padding: 0.875rem;
+  }
+  
+  .container {
+    padding: 0 0.5rem;
+  }
+}
+
 

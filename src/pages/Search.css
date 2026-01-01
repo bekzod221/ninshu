@@ -127,6 +127,10 @@
 }
 
 @media (max-width: 768px) {
+  .search-page {
+    padding: 2rem 0;
+  }
+  
   .search-title {
     font-size: 2rem;
   }
@@ -135,9 +139,15 @@
     flex-direction: column;
   }
   
+  .search-input {
+    padding: 0.875rem 1.25rem;
+    font-size: 0.95rem;
+  }
+  
   .search-button {
     width: 100%;
     justify-content: center;
+    padding: 0.875rem 1.5rem;
   }
   
   .search-results-grid {
@@ -145,8 +155,88 @@
     gap: 1rem;
   }
   
+  .results-title {
+    font-size: 1.25rem;
+  }
+  
   .container {
     padding: 0 1rem;
   }
 }
+
+@media (max-width: 480px) {
+  .search-page {
+    padding: 1.5rem 0;
+  }
+  
+  .search-header {
+    margin-bottom: 2rem;
+  }
+  
+  .search-title {
+    font-size: 1.75rem;
+    margin-bottom: 1.5rem;
+  }
+  
+  .search-input {
+    padding: 0.75rem 1rem;
+    font-size: 0.9rem;
+  }
+  
+  .search-button {
+    padding: 0.75rem 1.25rem;
+    font-size: 0.9rem;
+  }
+  
+  .search-results-grid {
+    grid-template-columns: repeat(auto-fill, minmax(110px, 1fr));
+    gap: 0.75rem;
+  }
+  
+  .results-title {
+    font-size: 1.1rem;
+  }
+  
+  .no-results h3,
+  .search-placeholder h3 {
+    font-size: 1.25rem;
+  }
+  
+  .no-results p,
+  .search-placeholder p {
+    font-size: 0.9rem;
+  }
+  
+  .container {
+    padding: 0 0.75rem;
+  }
+}
+
+@media (max-width: 375px) {
+  .search-title {
+    font-size: 1.5rem;
+  }
+  
+  .search-results-grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 0.75rem;
+  }
+  
+  .results-title {
+    font-size: 1rem;
+  }
+  
+  .search-input {
+    font-size: 0.85rem;
+  }
+  
+  .search-button {
+    font-size: 0.85rem;
+  }
+  
+  .container {
+    padding: 0 0.5rem;
+  }
+}
+
 
