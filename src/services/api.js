@@ -140,8 +140,44 @@ const getPlayerPriority = (player) => {
 };
 
 /**
+ * Check if a player has a complete episode list (no gaps)
+ * A player is considered to have a complete list if there are no gaps in the episode sequence
+ * @param {Array} playerVideos - Videos from a single player
+ * @returns {boolean} - True if episode list has no gaps
+ */
+const hasCompleteEpisodeList = (playerVideos) => {
+  if (playerVideos.length === 0) return false;
+  
+  // Extract unique episode numbers and sort them
+  const episodeSet = new Set();
+  playerVideos.forEach(video => {
+    const episodeNum = parseInt(video.number) || 0;
+    if (episodeNum > 0) {
+      episodeSet.add(episodeNum);
+    }
+  });
+  
+  if (episodeSet.size === 0) return false;
+  if (episodeSet.size === 1) return true; // Single episode is considered complete
+  
+  // Convert to sorted array
+  const episodeNumbers = Array.from(episodeSet).sort((a, b) => a - b);
+  
+  // Check for gaps: if there's any gap in the sequence, it's incomplete
+  for (let i = 0; i < episodeNumbers.length - 1; i++) {
+    if (episodeNumbers[i + 1] - episodeNumbers[i] > 1) {
+      // Found a gap - player is missing at least one episode
+      return false;
+    }
+  }
+  
+  // No gaps found - player has a continuous episode list
+  return true;
+};
+
+/**
  * Filter videos to show only one episode per episode number
- * Prioritizes better players (ad-free, reliable)
+ * Prioritizes better players (ad-free, reliable) that have complete episode lists
  * @param {Array} videos - Array of video objects
  * @param {number|string} [animeId] - Optional anime ID for special cases
  */
@@ -159,50 +195,78 @@ export const filterVideosByBestPlayer = (videos, animeId = null) => {
     }
   }
   
-  // Group by episode number
-  const episodesMap = new Map();
+  // Group videos by player
+  const videosByPlayer = new Map();
   
   videosToProcess.forEach(video => {
-    const episodeNum = video.number || '0';
     const player = video.data?.player || 'Unknown';
-    
-    if (!episodesMap.has(episodeNum)) {
-      episodesMap.set(episodeNum, []);
+    if (!videosByPlayer.has(player)) {
+      videosByPlayer.set(player, []);
     }
-    episodesMap.get(episodeNum).push(video);
+    videosByPlayer.get(player).push(video);
   });
   
-  // For each episode, select the best video based on player priority
-  const filteredVideos = [];
+  // Check each player for complete episode list and calculate priority
+  const playerScores = [];
   
-  episodesMap.forEach((videosForEpisode) => {
-    // Sort by player priority (highest first), then by views (most viewed first)
-    videosForEpisode.sort((a, b) => {
-      const priorityA = getPlayerPriority(a.data?.player || '');
-      const priorityB = getPlayerPriority(b.data?.player || '');
-      
-      if (priorityB !== priorityA) {
-        return priorityB - priorityA; // Higher priority first
-      }
-      
-      // If same priority, prefer more views
-      return (b.views || 0) - (a.views || 0);
+  videosByPlayer.forEach((playerVideos, player) => {
+    const hasComplete = hasCompleteEpisodeList(playerVideos);
+    const priority = getPlayerPriority(player);
+    
+    playerScores.push({
+      player,
+      videos: playerVideos,
+      hasComplete,
+      priority,
+      episodeCount: playerVideos.length
     });
-    
-    // Take the best one (first after sorting)
-    if (videosForEpisode.length > 0) {
-      filteredVideos.push(videosForEpisode[0]);
+  });
+  
+  // Filter to only players with complete episode lists
+  const completePlayers = playerScores.filter(p => p.hasComplete);
+  
+  // If no player has complete list, fall back to all players (prioritized)
+  const playersToConsider = completePlayers.length > 0 ? completePlayers : playerScores;
+  
+  // Sort by priority (highest first), then by episode count (most episodes first)
+  playersToConsider.sort((a, b) => {
+    if (b.priority !== a.priority) {
+      return b.priority - a.priority; // Higher priority first
+    }
+    return b.episodeCount - a.episodeCount; // More episodes first
+  });
+  
+  // Select the best player
+  if (playersToConsider.length === 0) {
+    return [];
+  }
+  
+  const bestPlayer = playersToConsider[0];
+  
+  // Group by episode number and select one video per episode (prefer most viewed)
+  const episodeMap = new Map();
+  bestPlayer.videos.forEach(video => {
+    const episodeNum = video.number || '0';
+    if (!episodeMap.has(episodeNum)) {
+      episodeMap.set(episodeNum, video);
+    } else {
+      // If multiple videos for same episode, prefer the one with more views
+      const existing = episodeMap.get(episodeNum);
+      if ((video.views || 0) > (existing.views || 0)) {
+        episodeMap.set(episodeNum, video);
+      }
     }
   });
   
-  // Sort by episode number
-  filteredVideos.sort((a, b) => {
+  // Convert map to array and sort by episode number
+  const selectedVideos = Array.from(episodeMap.values());
+  selectedVideos.sort((a, b) => {
     const numA = parseInt(a.number) || 0;
     const numB = parseInt(b.number) || 0;
     return numA - numB;
   });
   
-  return filteredVideos;
+  return selectedVideos;
 };
 
 /**
