@@ -122,8 +122,8 @@ export const transformAnimeData = (apiAnime, episodeCount = 0) => {
  * CVH is typically ad-free and newer, so highest priority
  */
 const PLAYER_PRIORITY = {
-  'Плеер CVH': 0,
-  'CVH': 0,
+  // 'Плеер CVH': 0,
+  // 'CVH': 0,
   'Плеер Alloha': 10,
   'Alloha': 10,
   'Плеер Kodik': 0,
