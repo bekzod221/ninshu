@@ -124,12 +124,12 @@ export const transformAnimeData = (apiAnime, episodeCount = 0) => {
 const PLAYER_PRIORITY = {
   // 'Плеер CVH': 0,
   // 'CVH': 0,
-  'Плеер Alloha': 10,
-  'Alloha': 10,
-  'Плеер Kodik': 0,
-  'Kodik': 0,
-  'Плеер Aksor': 0,
-  'Aksor': 0,
+  'Плеер Alloha': 5,
+  'Alloha': 5,
+  'Плеер Kodik': 3,
+  'Kodik': 3,
+  'Плеер Aksor': 4,
+  'Aksor': 4,
 };
 
 /**
@@ -142,12 +142,27 @@ const getPlayerPriority = (player) => {
 /**
  * Filter videos to show only one episode per episode number
  * Prioritizes better players (ad-free, reliable)
+ * @param {Array} videos - Array of video objects
+ * @param {number|string} [animeId] - Optional anime ID for special cases
  */
-export const filterVideosByBestPlayer = (videos) => {
+export const filterVideosByBestPlayer = (videos, animeId = null) => {
+  // Special case: One Piece (ID 1512) always uses Kodik player
+  let videosToProcess = videos;
+  if (animeId && (animeId === 1512 || animeId === '1512')) {
+    videosToProcess = videos.filter(video => {
+      const player = video.data?.player || '';
+      return player === 'Плеер Kodik' || player === 'Kodik';
+    });
+    // If no Kodik videos found, fall back to all videos
+    if (videosToProcess.length === 0) {
+      videosToProcess = videos;
+    }
+  }
+  
   // Group by episode number
   const episodesMap = new Map();
   
-  videos.forEach(video => {
+  videosToProcess.forEach(video => {
     const episodeNum = video.number || '0';
     const player = video.data?.player || 'Unknown';
     
@@ -192,10 +207,12 @@ export const filterVideosByBestPlayer = (videos) => {
 
 /**
  * Group videos by dubbing/translation (with filtered videos - one per episode)
+ * @param {Array} videos - Array of video objects
+ * @param {number|string} [animeId] - Optional anime ID for special cases
  */
-export const groupVideosByDubbing = (videos) => {
+export const groupVideosByDubbing = (videos, animeId = null) => {
   // First filter to get best player per episode
-  const filteredVideos = filterVideosByBestPlayer(videos);
+  const filteredVideos = filterVideosByBestPlayer(videos, animeId);
   
   const grouped = {};
   

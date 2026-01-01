@@ -48,12 +48,12 @@ function Watch() {
           setAnime(transformed);
 
           const videoList = await fetchAnimeVideos(id);
-          // Filter to get best player per episode
-          const filteredVideos = filterVideosByBestPlayer(videoList);
+          // Filter to get best player per episode (pass anime ID for special cases)
+          const filteredVideos = filterVideosByBestPlayer(videoList, id);
           setVideos(filteredVideos);
           
-          // Group filtered videos by dubbing
-          const grouped = groupVideosByDubbing(filteredVideos);
+          // Group filtered videos by dubbing (pass anime ID for special cases)
+          const grouped = groupVideosByDubbing(videoList, id);
           setGroupedVideos(grouped);
           
           // Find current video from filtered list
