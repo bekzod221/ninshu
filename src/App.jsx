@@ -5,10 +5,12 @@ import Detail from './pages/Detail';
 import Watch from './pages/Watch';
 import Search from './pages/Search';
 import './App.css';
+import { Analytics } from "@vercel/analytics/react"
 
 function App() {
   return (
     <Router>
+      <Analytics/>
       <div className="app">
         <Header />
         <Routes>
